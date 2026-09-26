@@ -44,9 +44,3 @@ Some sources overlap. The Social Vulnerability Index uses ACS data, and AHRQ com
 Reference releases have effective dates. We will need the versions that apply to the records being processed, rather than assuming the latest release covers everything.
 
 DE-SynPUF also needs legacy ICD-9-CM support. [Synthea uses SNOMED CT and LOINC](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary) as well; we can preserve those codes without adding their full reference datasets to this first pass. HCPCS Level II does not include the separately licensed CPT code set.
-
-## First Ingestion
-
-Start with CMS Blue Button Sandbox: register an application, authorize one synthetic beneficiary, and inspect one response. Use that response to decide the next small piece of code.
-
-As each source is added, record the dataset version, retrieval date, and any access or usage requirements. Keep original codes and their code systems when transforming records. Storage choices and shared services will be discussed as the ingestion flows take shape.

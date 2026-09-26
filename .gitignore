@@ -109,3 +109,6 @@ temp/
 
 # Local logs
 *.log
+
+# Personal task checklist
+/TODO.md
