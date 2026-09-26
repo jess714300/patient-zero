@@ -1,0 +1,122 @@
+# =============================================================================
+# PROJECT
+# =============================================================================
+
+[project]
+name = "patient-zero"
+version = "0.1.0"
+description = "Healthcare data, analytics, predictive modeling, and patient simulation, starting with Patient Zero."
+readme = "README.md"
+
+# =============================================================================
+#  DEPENDENCIES
+# =============================================================================
+
+requires-python = ">=3.13"
+
+dependencies = [
+    "polars>=1.36.1",
+]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.414",
+    "pytest>=8.4.2",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.16.9",
+]
+
+# =============================================================================
+# RUFF
+# =============================================================================
+
+[tool.ruff]
+target-version = "py313"
+line-length = 150
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "F",      # Pyflakes
+    "I",      # import sorting
+    "UP",     # modern Python syntax
+    "B",      # likely bugs and design problems
+    "SIM",    # unnecessary complexity
+    "D",      # docstring conventions
+    "RUF",    # Ruff-specific checks
+]
+
+ignore = [
+    "D212",    # Allow multi-line docstring summaries to begin on the second line
+]
+
+extend-select = [
+    "D213",    # Require summaries on the second line for multi-line docstrings
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["D104"]
+"tests/**/*.py" = ["D"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+docstring-code-format = true
+
+# =============================================================================
+# PYRIGHT
+# =============================================================================
+
+[tool.pyright]
+pythonVersion = "3.13"
+typeCheckingMode = "standard"
+
+include = [
+    "p0",
+    "etls",
+    "dags",
+    "tests",
+]
+
+exclude = [
+    ".venv",
+]
+
+# =============================================================================
+# PYTEST
+# =============================================================================
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+addopts = [
+    "-ra",
+    "--strict-config",
+    "--strict-markers",
+]
+
+markers = [
+    "integration: tests that interact with external systems or multiple application components",
+    "slow: tests that are intentionally slower than the standard test suite",
+]
+
+# =============================================================================
+# COVERAGE
+# =============================================================================
+
+[tool.coverage.run]
+source = [
+    "p0",
+]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+precision = 1
