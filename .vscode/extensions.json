@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        // Python language support and environment integration
+        "ms-python.python",
+        // Python language server and editor type analysis
+        "ms-python.vscode-pylance",
+        // Formatting and linting
+        "charliermarsh.ruff",
+        // Coding agent
+        "openai.chatgpt"
+    ]
+}
