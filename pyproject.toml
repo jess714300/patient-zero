@@ -15,7 +15,9 @@ readme = "README.md"
 requires-python = ">=3.13"
 
 dependencies = [
+    "colorama>=0.4.6",
     "polars>=1.36.1",
+    "python-json-logger>=4.2.0",
 ]
 
 [dependency-groups]
@@ -50,6 +52,8 @@ select = [
 ]
 
 ignore = [
+    "D200",    # Allow short docstrings with quotes on separate lines
+    "D205",    # Allow docstrings without a blank line after the summary
     "D212",    # Allow multi-line docstring summaries to begin on the second line
 ]
 

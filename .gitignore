@@ -102,6 +102,7 @@ Desktop.ini
 
 # Local data directories should be ignored selectively as they are introduced.
 # Public/synthetic sample data intended for reproducibility may be committed.
+/data/raw/synthea/
 
 # Temporary files
 tmp/
