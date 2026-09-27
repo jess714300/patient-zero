@@ -1,6 +1,6 @@
 """
-Configure readable stdout logs and optional persistent JSON logs for Patient Zero.
-Modules share named Python loggers; entry points configure their output once per run.
+Show logs in the terminal and optionally save them to a JSON file.
+Set up logging once when the program starts.
 """
 
 import logging
@@ -20,7 +20,7 @@ DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 class ColorFormatter(logging.Formatter):
     """
-    Color console output by severity without changing the shared log record.
+    Color terminal messages by log level without changing the original message.
     """
 
     COLORS: ClassVar[dict[int, str]] = {
@@ -33,7 +33,7 @@ class ColorFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         """
-        Format the message and reset terminal colors after the complete output.
+        Add color to the message and reset the terminal color afterward.
         """
         message = super().format(record)
         color = self.COLORS.get(record.levelno, "")
@@ -42,7 +42,7 @@ class ColorFormatter(logging.Formatter):
 
 def _resolve_level(value: str) -> int:
     """
-    Convert a case-insensitive logging level name to its numeric value.
+    Convert a level name, such as INFO or debug, to its logging number.
     """
     level = logging.getLevelNamesMapping().get(value.upper())
     if level is None:
@@ -52,7 +52,7 @@ def _resolve_level(value: str) -> int:
 
 def _create_console_handler(level: int) -> logging.StreamHandler:
     """
-    Send logs to stdout, using colors only for an interactive terminal.
+    Write logs to standard output, with color when it is a terminal.
     """
     just_fix_windows_console()
     handler = logging.StreamHandler(sys.stdout)
@@ -65,7 +65,7 @@ def _create_console_handler(level: int) -> logging.StreamHandler:
 
 def _create_file_handler(directory: Path, level: int) -> logging.FileHandler:
     """
-    Create a unique JSON log file containing source locations and a run identifier.
+    Create a new JSON log file with code locations and an ID for this run.
     """
     directory.mkdir(parents=True, exist_ok=True)
     run_id = uuid4().hex
@@ -90,8 +90,9 @@ def configure_logging(
     file_level: str | None = None,
 ) -> Path | None:
     """
-    Configure stdout and optional JSON file logging at application startup.
-    Explicit settings override environment values; return the log path when file logging is enabled.
+    Set up terminal logs and optional JSON file logs.
+    Arguments take priority over environment variables.
+    Return the log file path, or None if logs are only shown in the terminal.
     """
     console_level = _resolve_level(level if level is not None else os.environ.get("P0_LOG_LEVEL", "INFO"))
     directory_setting = os.environ.get("P0_LOG_DIR")
@@ -116,7 +117,6 @@ def configure_logging(
 
 def get_logger(name: str) -> logging.Logger:
     """
-    Get a named logger without configuring handlers or creating log files.
-    Use __name__ so output identifies the originating module.
+    Get a logger with the given name. Leave output settings unchanged.
     """
     return logging.getLogger(name)
