@@ -33,7 +33,7 @@ class ServiceFactory:
         Create the Synthea service once and reuse it.
         """
         if self._synthea_service is None:
-            self._synthea_service = SyntheaService()
+            self._synthea_service = SyntheaService(self.database_service)
         return self._synthea_service
 
 

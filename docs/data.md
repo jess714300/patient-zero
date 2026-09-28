@@ -46,7 +46,7 @@ Patient Zero will use patient records, community data, and clinical reference da
 
 ### Data Locations
 
-Raw downloads are stored locally under `data/raw/synthea/`, outside Git. [`etl_synthea_patients.py`](../etls/etl_synthea_patients.py) currently downloads the CSV sample. Database destinations use `patient_zero.synthea_data` and dataset-prefixed `_raw` table names; the tables below are not yet populated.
+Raw downloads are stored locally under `data/raw/synthea/`, outside Git. [`etl_synthea_patients.py`](../etls/etl_synthea_patients.py) loads raw data into `patient_zero.synthea_data`. CSV records use all-text `<dataset>_<entity>_raw` tables.
 
 | Dataset | Description | Format / approximate download size | Table pattern in `synthea_data` |
 | --- | --- | --- | --- |

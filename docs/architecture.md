@@ -20,7 +20,6 @@ patient-zero/
 |       |-- DatabaseService.py
 |       |-- SyntheaService.py
 |-- docs/
-|-- tests/
 ```
 
 The factory and service modules are placeholders; logging is implemented. Configuration, custom exceptions, repositories, and observability packages are absent until they have concrete responsibilities.

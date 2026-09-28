@@ -235,8 +235,7 @@ Type checking includes:
 ```text
 p0/
 etls/
-dags/
-tests/
+dags
 ```
 
 Run type checking with:
@@ -256,16 +255,16 @@ Pyright strict mode is not currently enabled. Type-checking requirements may bec
 
 Patient Zero uses pytest.
 
-Tests are located in:
+Tests are kept locally and excluded from Git:
 
 ```text
-tests/
+local_tests/
 ```
 
 The expected structure will distinguish unit and integration testing as the test suite develops:
 
 ```text
-tests/
+local_tests/
 ├── unit/
 └── integration/
 ```

@@ -41,6 +41,7 @@ env/
 # TESTING & COVERAGE
 # =============================================================================
 
+/local_tests/
 .pytest_cache/
 .coverage
 .coverage.*

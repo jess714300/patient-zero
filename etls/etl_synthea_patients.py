@@ -2,8 +2,7 @@
 Synthea provides fictional patient data with personal details and medical histories.
 These records do not describe real patients.
 
-This ETL downloads the packaged Synthea archive, normalizes the extracted patient
-records, and writes the resulting data to the configured database.
+This ETL downloads Synthea files and loads their raw data into PostgreSQL.
 """
 
 import argparse
@@ -19,14 +18,14 @@ logger = get_logger("etl_synthea_patients")
 
 # Arg Parser
 parser = argparse.ArgumentParser(
-    description="Download a Synthea ZIP archive, save it locally, and ingest the synthetic patient data files it contains.",
+    description="Download Synthea files and load raw data.",
     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 )
 
 parser.add_argument(
     "-u",
     "--url",
-    help="Required: Direct download URL for the Synthea ZIP archive or packaged data file.",
+    help="Required: Direct download URL for a Synthea file or archive.",
     required=True,
     type=str,
 )
@@ -34,9 +33,18 @@ parser.add_argument(
 parser.add_argument(
     "-d",
     "--destination",
-    help="Local folder for ZIP files and download details.",
+    help="Local folder for downloads and their details.",
     default=Path(__file__).resolve().parents[1] / "data" / "raw" / "synthea",
     type=Path,
+)
+
+
+parser.add_argument(
+    "-n",
+    "--dataset",
+    help="Required: Table prefix, such as sample_latest or covid19_100k.",
+    required=True,
+    type=str,
 )
 
 
@@ -49,13 +57,14 @@ def main() -> int:
 
     try:
         ss: SyntheaService = service_factory.synthea_service
-        ds: DatabaseService = service_factory.database_service  # noqa: F841 - Database loading will use this service.
-        logger.info("Starting Synthea download")
-        ss.pull_data(cli_args.url, cli_args.destination)
-        logger.info("Synthea download completed successfully")
+        ds: DatabaseService = service_factory.database_service
+        logger.info("Starting Synthea raw load")
+        ds.check_connection()
+        ss.run_etl(cli_args.url, cli_args.destination, cli_args.dataset)
+        logger.info("Synthea raw load completed successfully")
         return 0
     except Exception:
-        logger.exception("Synthea download failed")
+        logger.exception("Synthea raw load failed")
         return 1
 
 
